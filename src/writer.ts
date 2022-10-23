@@ -47,12 +47,14 @@ export default class FileWriter {
   }
 
   MotionStart() {
-    this.CreateFileWriter();
+    if (this.config_.on_motion) this.CreateFileWriter();
   }
 
   MotionStop() {
-    if (this.in_stream_) this.in_stream_.end();
-    this.in_stream_ = undefined;
+    if (this.config_.on_motion) {
+      if (this.in_stream_) this.in_stream_.end();
+      this.in_stream_ = undefined;
+    }
   }
 
   WriteFrame(frame: Buffer) {
