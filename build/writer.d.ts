@@ -11,7 +11,7 @@ export default class FileWriter {
     private to_delete_;
     constructor(cam_name: string, fps: number, config: FileWriterConfig);
     GetIndex(): VidIndex;
-    MotionStart(): void;
+    MotionStart(back_queue: Array<Buffer>): void;
     MotionStop(): void;
     WriteFrame(frame: Buffer): void;
     private GenerateFilename;

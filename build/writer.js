@@ -36,9 +36,13 @@ class FileWriter {
     GetIndex() {
         return this.index_;
     }
-    MotionStart() {
-        if (this.config_.on_motion)
+    MotionStart(back_queue) {
+        if (this.config_.on_motion) {
             this.CreateFileWriter();
+            for (let i = 0; i < back_queue.length; i++) {
+                this.WriteFrame(back_queue[i]);
+            }
+        }
     }
     MotionStop() {
         if (this.config_.on_motion) {
