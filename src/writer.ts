@@ -7,6 +7,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 import { FileWriterConfig, VidIndex } from "./types";
 export default class FileWriter {
+  private motion_cut_timeout_: NodeJS.Timeout;
   private index_loc_: string;
   private count_ = 0;
   private fps_: number;
@@ -57,10 +58,12 @@ export default class FileWriter {
     if (this.config_.on_motion) {
       this.CreateFileWriter();
       for (let i = 0; i < back_queue.length; i++) { this.WriteFrame(back_queue[i]); }
+      this.motion_cut_timeout_ = setTimeout(() => this.MotionStart([]), this.config_.vid_length);
     }
   }
 
   MotionStop() {
+    clearInterval(this.motion_cut_timeout_);
     if (this.config_.on_motion) {
       if (this.in_stream_) this.in_stream_.end();
       this.in_stream_ = undefined;
@@ -113,7 +116,8 @@ export default class FileWriter {
       .pipe(fs.createWriteStream(path.join(this.config_.save_dir, filename)), { end: true })
       .on("error", (error) => {
         console.log(error);
-      });
+      })
+      .on("close", () => { /* */ });
 
     this.index_.videos.push({
       file_loc: path.join(this.config_.save_dir, filename),

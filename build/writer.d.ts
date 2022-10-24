@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { FileWriterConfig, VidIndex } from "./types";
 export default class FileWriter {
+    private motion_cut_timeout_;
     private index_loc_;
     private count_;
     private fps_;
@@ -10,7 +11,7 @@ export default class FileWriter {
     private index_;
     private to_delete_;
     constructor(cam_name: string, fps: number, config: FileWriterConfig);
-    GetIndex(): VidIndex;
+    static GetIndex(config: FileWriterConfig): VidIndex;
     MotionStart(back_queue: Array<Buffer>): void;
     MotionStop(): void;
     WriteFrame(frame: Buffer): void;

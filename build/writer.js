@@ -33,8 +33,16 @@ class FileWriter {
             this.DeleteExpired();
         }, Math.max(this.config_.vid_length, 60 * 1000));
     }
-    GetIndex() {
-        return this.index_;
+    static GetIndex(config) {
+        const index_loc_ = path_1.default.join(config.save_dir, `.${config.id}_index.json`);
+        try {
+            const data = fs_1.default.readFileSync(index_loc_).toString();
+            return JSON.parse(data);
+        }
+        catch (error) {
+            console.warn(error);
+            return { videos: [] };
+        }
     }
     MotionStart(back_queue) {
         if (this.config_.on_motion) {
@@ -42,9 +50,11 @@ class FileWriter {
             for (let i = 0; i < back_queue.length; i++) {
                 this.WriteFrame(back_queue[i]);
             }
+            this.motion_cut_timeout_ = setTimeout(() => this.MotionStart([]), this.config_.vid_length);
         }
     }
     MotionStop() {
+        clearInterval(this.motion_cut_timeout_);
         if (this.config_.on_motion) {
             if (this.in_stream_)
                 this.in_stream_.end();
