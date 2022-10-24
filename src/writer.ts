@@ -42,8 +42,15 @@ export default class FileWriter {
     }, Math.max(this.config_.vid_length, 60 * 1000));
   }
 
-  GetIndex(): VidIndex {
-    return this.index_;
+  static GetIndex(config: FileWriterConfig): VidIndex {
+    const index_loc_ = path.join(config.save_dir, `.${config.id}_index.json`);
+    try {
+      const data = fs.readFileSync(index_loc_).toString();
+      return JSON.parse(data);
+    } catch (error) {
+      console.warn(error);
+      return { videos: [] };
+    }
   }
 
   MotionStart(back_queue: Array<Buffer>) {
