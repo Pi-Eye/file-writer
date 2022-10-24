@@ -104,14 +104,18 @@ class FileWriter {
             .pipe(fs_1.default.createWriteStream(path_1.default.join(this.config_.save_dir, filename)), { end: true })
             .on("error", (error) => {
             console.log(error);
-        });
+        })
+            .on("close", () => { });
         this.index_.videos.push({
             file_loc: path_1.default.join(this.config_.save_dir, filename),
             date: timestamp,
             expires: timestamp + this.config_.delete_after
         });
         try {
-            fs_1.default.writeFileSync(this.index_loc_, JSON.stringify(this.index_));
+            fs_1.default.writeFile(this.index_loc_, JSON.stringify(this.index_), (err) => {
+                if (err)
+                    console.warn(err);
+            });
         }
         catch (error) {
             console.warn(error);

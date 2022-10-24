@@ -125,7 +125,9 @@ export default class FileWriter {
       expires: timestamp + this.config_.delete_after
     });
     try {
-      fs.writeFileSync(this.index_loc_, JSON.stringify(this.index_));
+      fs.writeFile(this.index_loc_, JSON.stringify(this.index_), (err) => {
+        if (err) console.warn(err);
+      });
     } catch (error) {
       console.warn(error);
     }
