@@ -5,7 +5,7 @@ import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
 ffmpeg.setFfmpegPath(ffmpegPath);
 
-import { FileWriterConfig, VidIndex } from "./types";
+import { FileWriterConfig, VidIndex } from "file-writer-types";
 export default class FileWriter {
   private motion_cut_timeout_: NodeJS.Timeout;
   private index_loc_: string;

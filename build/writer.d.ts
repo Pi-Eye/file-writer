@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { FileWriterConfig, VidIndex } from "./types";
+import { FileWriterConfig, VidIndex } from "file-writer-types";
 export default class FileWriter {
     private motion_cut_timeout_;
     private index_loc_;

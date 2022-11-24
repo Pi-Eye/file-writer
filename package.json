@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "ffmpeg-static": "^5.1.0",
+    "file-writer-types": "github:Pi-Eye/file-writer-types",
     "fluent-ffmpeg": "^2.1.2"
   }
 }
