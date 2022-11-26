@@ -44,6 +44,11 @@ class FileWriter {
             return { videos: [] };
         }
     }
+    Stop() {
+        if (this.in_stream_) {
+            this.in_stream_.end();
+        }
+    }
     MotionStart(back_queue) {
         if (this.config_.on_motion) {
             this.CreateFileWriter();
